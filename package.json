@@ -1,0 +1,31 @@
+{
+  "name": "moonlink.js-lyrics",
+  "version": "1.0.0",
+  "description": "plugin moonlink.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ecliptia/moonlink.js-lyrics.git"
+  },
+  "keywords": [
+    "plugin",
+    "moonlink.js",
+    "lavalink",
+    "bot",
+    "application",
+    "discord",
+    "discord.js"
+  ],
+  "author": "1Lucas1apk (1lucas1apk@gmail.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Ecliptia/moonlink.js-lyrics/issues"
+  },
+  "homepage": "https://github.com/Ecliptia/moonlink.js-lyrics#readme",
+  "dependencies": {
+    "moonlink.js": "github:Ecliptia/moonlink.js"
+  }
+}
