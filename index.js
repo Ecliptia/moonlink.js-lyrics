@@ -33,10 +33,39 @@ class Lyrics extends Plugin {
         return (await this.get(`sessions/${this.sessionId}/players/${guildId}/lyrics`));
       }
     });
-
     Structure.extend("MoonlinkPlayer", MoonlinkPlayer => class extends MoonlinkPlayer {
       async lyrics() {
-        return (await this.node.rest.getPlayerLyrics(this.guildId));
+        if (!this.current) return null;
+        if (this.get("lyrics") && this.get("lyrics").identifier !== this.current.identifier) {
+          let lyricIds = await this.node.rest.searchLyrics(`${this.current.title} - ${this.current.author}`) || {};
+          for (const lyricObj of lyricIds) {
+            if (this.get("lyrics") && this.get("lyrics").identifier == this.current.identifier && this.get("lyrics").lyricObj !== null) return this.get("lyrics").lyricObj;
+            let {
+              videoId
+            } = lyricObj;
+            let lyric = await this.node.rest.getLyrics(videoId);
+            console.log(lyric, lyricObj, lyricIds)
+            if (lyric.status !== 404) {
+              this.set("lyrics", {
+                identifier: this.current.identifier,
+                lyricObj: lyric,
+              });
+            }
+          }
+          if (!this.get("lyrics") || this.get("lyrics").identifier !== this.current.identifier) {
+            this.set("lyrics", {
+              identifier: this.current.identifier,
+              lyricObj: null,
+            });
+          }
+          return this.get("lyrics").lyricObj;
+        } else if (this.get("lyrics") && this.get("lyrics").identifier == this.current.identifier) {
+          return this.get("lyrics").lyricObj;
+        } else if (!this.get("lyrics")) {
+          this.set("lyrics", {});
+          return this.lyrics();
+        }
+        return this.get("lyrics").lyricObj;
       }
     });
   }
